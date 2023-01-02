@@ -1,11 +1,12 @@
 import "./Nav.scss"
 import SearchBox from "../SearchBox/SearchBox"
 
-const Nav = () => {
+const Nav = (props) => {
+  const {searchTerm, handleInput} = props
   return (
     <div className="App">
       <nav className="Nav">
-      <SearchBox/>
+      <SearchBox handleInput={handleInput} searchTerm={searchTerm}/>
       </nav>
     </div>
   )
