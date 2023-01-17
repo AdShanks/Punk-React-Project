@@ -1,11 +1,12 @@
 import React from 'react'
 
-const FilteredCheckBox = () => {
+const FilteredCheckBox = (props) => {
+  const {abvFilter, handleAbv} = props
   return (
   <div className="App">
     <nav className="Nav">
-      <label>Alcohol Level</label> 
-      <input  type="checkbox" name="alcohol level" /> 
+      <label>ABV (greter than 6%)</label> 
+      <input value = {abvFilter} onChange={handleAbv}  type="checkbox" name="ABV over 6%" /> 
 
       <label>Acidity</label>
       <input type="checkbox" name="acidity" />   
