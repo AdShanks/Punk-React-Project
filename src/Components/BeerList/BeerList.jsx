@@ -7,11 +7,14 @@ import { useEffect, useState} from "react";
 const BeerList = () => {
   
   //useState for search filter
-  const [searchTerm, setSearchTerm] = useState("");
-  const [beers, setBeers] = useState ("");
+  const [ searchTerm, setSearchTerm ] = useState("");
+  const [ beers, setBeers ] = useState ("");
+  const [url, setUrl] = useState(`https://api.punkapi.com/v2/beers`)
+  const [isChecked, setIsChecked] = useState(false)
+
 
   const getBeers = () => {
-    fetch("https://api.punkapi.com/v2/beers")
+    fetch(url)
     .then((res) => {
       return res.json()
     })  
@@ -19,29 +22,28 @@ const BeerList = () => {
       setBeers(data)
     })
   }
+  useEffect(getBeers, [url])
 
+  // const getAbvBeers = () => {
+  //   fetch("https://api.punkapi.com/v2/beers?abv_gt=6")
+  //   .then((res) => {
+  //     return res.json()
+  //   })
+  //   .then((data) => {
+  //     setAbv(data)
+  //   })
+  // }
   
+  //ABV checkbox filter
   
-  //useState for ABV checkbox filter
-  const [abvFilter, setAbvFilter] = useState(false);
-  console.log(abvFilter)
-
-  //Handle change for ABV checkbox
-  const handleAbv = () => {
-    setAbvFilter(!abvFilter)};
+const handleAbv = () => {
+  setUrl(`https://api.punkapi.com/v2/beers?abv_gt=6`)
     
-  const filterByAbv = data.filter(beer => {
-    return beer.abv > 6
-  });
-
-  const mappedAbvFilter = filterByAbv.map(item => {
-    return <BeerCard beer={item} />
-  })
     
-
+  }
   
-  
-  //Map over Beer Cards
+    
+//Map over Beer Cards
   const mappedBeers = beers && beers.map(beer => {
     return <BeerCard beer= {beer} />
   })
@@ -50,8 +52,8 @@ const BeerList = () => {
   const handleInput =(e) => {
     const cleanInput = e.target.value.toLowerCase();
     setSearchTerm(cleanInput)
-  }
-  
+    }
+
   const searchFilteredBeers = data.filter(beer => {
       return beer.name.toLowerCase().includes(searchTerm);
   })
@@ -61,24 +63,18 @@ const BeerList = () => {
     return <BeerCard beer={item} />
   })
 
-  useEffect(getBeers, [])
+
 
  
    return (
     <div className="App">
       <nav>
-      <Nav searchTerm={searchTerm} handleInput={handleInput} abvFilter={abvFilter} handleAbv = {handleAbv} />
+      <Nav searchTerm={searchTerm} handleInput={handleInput} handleAbv={handleAbv} />
             
       </nav>
+   
      <main className="beerList">
-      
-      {/* searchterm and searchedBeers breaks code, mappedBeers works */}
-        {searchTerm} ? {mappedSearchedBeers} : {mappedBeers}
-        {abvFilter} ? {mappedAbvFilter} : {mappedBeers}  
-        
-        {/* {/* {beers && beers.map((beer) => { */}
-          {/* return <BeerCard beer = {beer} />
-        })} */}
+      {searchTerm ? mappedSearchedBeers : mappedBeers}
       </main> 
     
     </div>
