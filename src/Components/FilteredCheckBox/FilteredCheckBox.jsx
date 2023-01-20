@@ -1,7 +1,7 @@
 import React from 'react'
 
 const FilteredCheckBox = (props) => {
-  const {handleAbv} = props
+  const {handleAbv, handleRange} = props
   return (
   <div className="App">
     <nav className="Nav">
@@ -12,7 +12,7 @@ const FilteredCheckBox = (props) => {
       <input type="checkbox" name="acidity" />   
 
       <label>Classic Range</label>  
-      <input type="checkbox" name="classic range" />  
+      <input type="checkbox" name="classic range" onChange={handleRange}/>  
    </nav>
  </div>
   )

@@ -9,8 +9,9 @@ const BeerList = () => {
   //useState for search filter
   const [ searchTerm, setSearchTerm ] = useState("");
   const [ beers, setBeers ] = useState ("");
-  const [url, setUrl] = useState(`https://api.punkapi.com/v2/beers`)
-  const [isChecked, setIsChecked] = useState(false)
+  const [url, setUrl] = useState(`https://api.punkapi.com/v2/beers?per_page=33`)
+  const [isChecked, setIsChecked] = useState(true)
+  const [isRange, setIsRange] = useState(true)
 
 
   const getBeers = () => {
@@ -23,24 +24,30 @@ const BeerList = () => {
     })
   }
   useEffect(getBeers, [url])
-
-  // const getAbvBeers = () => {
-  //   fetch("https://api.punkapi.com/v2/beers?abv_gt=6")
-  //   .then((res) => {
-  //     return res.json()
-  //   })
-  //   .then((data) => {
-  //     setAbv(data)
-  //   })
-  // }
   
   //ABV checkbox filter
-  
 const handleAbv = () => {
-  setUrl(`https://api.punkapi.com/v2/beers?abv_gt=6`)
+  setIsChecked(!isChecked)
+  setIsRange(!isRange)
+  
+  if (isChecked) {
+  setUrl(`https://api.punkapi.com/v2/beers?per_page=33&abv_gt=6`)}
+  
+  // else if (isChecked && isRange) {
+  //   setUrl(`https://api.punkapi.com/v2/beers?per_page=33&abv_gt=6&brewed_before=01-2010`)
+  // }
+  
+  else {setUrl(`https://api.punkapi.com/v2/beers?per_page=33`)}
     
-    
-  }
+    }
+
+const handleRange = () => {
+setIsRange(!isRange)
+if (isRange) {
+  setUrl(`https://api.punkapi.com/v2/beers?brewed_before=01-2010&per_page=33`)
+}
+else {setUrl(`https://api.punkapi.com/v2/beers?per_page=33`)}
+}
   
     
 //Map over Beer Cards
@@ -69,7 +76,7 @@ const handleAbv = () => {
    return (
     <div className="App">
       <nav>
-      <Nav searchTerm={searchTerm} handleInput={handleInput} handleAbv={handleAbv} />
+      <Nav searchTerm={searchTerm} handleInput={handleInput} handleAbv={handleAbv} handleRange={handleRange}/>
             
       </nav>
    
